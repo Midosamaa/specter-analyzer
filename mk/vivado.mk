@@ -10,17 +10,8 @@ ${BUILD_DIR}/vivado:
 	@mkdir -p $@/bitstream_out
 	@mkdir -p $@/dcp
 	@mkdir -p $@/script
-	@mkdir -p ${BUILD_DIR}/xsim
-	@mkdir -p ${BUILD_DIR}/xsim/build
-	@mkdir -p ${BUILD_DIR}/xsim/script
-	@mkdir -p ${BUILD_DIR}/xsim/log
-	@mkdir -p ${BUILD_DIR}/xsim-hw_emu
-	@mkdir -p ${BUILD_DIR}/xsim-hw_emu/build
-	@mkdir -p ${BUILD_DIR}/xsim-hw_emu/script
-	@mkdir -p ${BUILD_DIR}/xsim-hw_emu/log
-	@mkdir -p ${BUILD_DIR}/xsim-hw_emu/dts
 
-${BUILD_DIR}/vivado/script/synth_sources.tcl: ${SYNTH_SRC} ${PROJECT_MK} | ${BUILD_DIR}/vivado
+${BUILD_DIR}/vivado/script/synth_sources.tcl: ${SYNTH_SRC} ${PROJECT_MK} ${RTL_MODULES_DEF} | ${BUILD_DIR}/vivado
 	@rm -f $@
 	@rm -f ${BUILD_DIR}/vivado/script/save_sources.sh
 	@rm -f ${BUILD_DIR}/vivado/script/restore_sources.sh
@@ -30,17 +21,11 @@ ${BUILD_DIR}/vivado/script/synth_sources.tcl: ${SYNTH_SRC} ${PROJECT_MK} | ${BUI
 	@echo "set synth_list {" > $@
 	@for f in ${SYNTH_SRC}; do \
 	   cp $${f} ${BUILD_DIR}/vivado/build/`basename $${f}`; \
-	   cp $${f} ${BUILD_DIR}/xsim/build/`basename $${f}`; \
-	   cp $${f} ${BUILD_DIR}/xsim-hw_emu/build/`basename $${f}`; \
 	   echo "  ${BUILD_DIR}/vivado/build/`basename $${f}`" >> $@; \
 	   echo "cp ${BUILD_DIR}/vivado/build/`basename $${f}` $${f}" >> ${BUILD_DIR}/vivado/script/save_sources.sh; \
 	   echo "cp $${f} ${BUILD_DIR}/vivado/build/`basename $${f}`" >> ${BUILD_DIR}/vivado/script/restore_sources.sh; \
-  done
+	done
 	@echo "}" >> $@
-	@cp $@ ${BUILD_DIR}/xsim/script/synth_sources.tcl
-	@cp $@ ${BUILD_DIR}/xsim-hw_emu/script/synth_sources.tcl
-	@sed -i 's/vivado/xsim/g' ${BUILD_DIR}/xsim/script/synth_sources.tcl
-	@sed -i 's/vivado/xsim-hw_emu/g' ${BUILD_DIR}/xsim-hw_emu/script/synth_sources.tcl
 
 ${BUILD_DIR}/vivado/script/synth_constraints.tcl: ${PRE_SYNTH_CONSTRAINTS} ${POST_SYNTH_CONSTRAINTS} | ${BUILD_DIR}/vivado
 	@rm -f $@
@@ -49,7 +34,7 @@ ${BUILD_DIR}/vivado/script/synth_constraints.tcl: ${PRE_SYNTH_CONSTRAINTS} ${POS
 	@for f in ${PRE_SYNTH_CONSTRAINTS}; do \
 	  cp $${f} ${BUILD_DIR}/vivado/build/`basename $${f}`; \
     echo "  ${BUILD_DIR}/vivado/build/`basename $${f}`" >> $@; \
-  done
+	done
 	@echo "}" >> $@
 	@echo "set post_constrs_list {" >> $@
 	@for f in ${POST_SYNTH_CONSTRAINTS}; do \

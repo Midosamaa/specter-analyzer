@@ -19,7 +19,23 @@ SYNTH_VHDL_FILES           = $(shell echo ${SYNTH_FILES} | tr ' ' '\n' | grep ".
 SYNTH_VERILOG_FILES        = $(shell echo ${SYNTH_FILES} | tr ' ' '\n' | grep -v ".vhd" | grep -v ".vhdl" | grep -v ".sv" | grep -v ".bd" | grep -v ".xci")
 SYNTH_SYSTEM_VERILOG_FILES = $(shell echo ${SYNTH_FILES} | tr ' ' '\n' | grep ".sv")
 
-${BUILD_DIR}/xsim/import-synth.done: ${BUILD_DIR}/vivado/script/synth_sources.tcl
+${BUILD_DIR}/xsim:
+	@mkdir -p $@
+	@mkdir -p $@/build
+	@mkdir -p $@/script
+	@mkdir -p $@/log
+
+${BUILD_DIR}/xsim/script/synth_sources.tcl: ${SYNTH_SRC} ${PROJECT_MK} ${RTL_MODULES_DEF} | ${BUILD_DIR}/xsim
+	@rm -f $@
+	@touch $@
+	@echo "set synth_list {" > $@
+	@for f in ${SYNTH_SRC}; do \
+	   cp $${f} ${BUILD_DIR}/xsim/build/`basename $${f}`; \
+	   echo "  ${BUILD_DIR}/xsim/build/`basename $${f}`" >> $@; \
+	done
+	@echo "}" >> $@
+
+${BUILD_DIR}/xsim/import-synth.done: ${BUILD_DIR}/xsim/script/synth_sources.tcl
 	@echo "----------------------------------------------------------------"
 	@echo "---     RTL SIMULATION SYNTHETIZABLE FILES IMPORTATION       ---"
 	@echo "----------------------------------------------------------------"

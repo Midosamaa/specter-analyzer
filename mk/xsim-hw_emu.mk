@@ -6,6 +6,7 @@ XSIM_LIB_PATH = ${VIVADO_PATH}/data/xsim
 PROTECTED_MODELS_LIB_PATH = ${VIVADO_PATH}/data/simmodels/xsim/2022.2/lnx64/6.2.0/systemc/protected
 EXT_MODELS_LIB_PATH = ${VIVADO_PATH}/data/simmodels/xsim/2022.2/lnx64/6.2.0/ext
 XILINX_BOOST_LIB_PATH = ${VIVADO_PATH}/tps/boost_1_72_0
+
 XSC_CC_CMD = $(shell grep "xsc -c " ${HW_EMU_SIM_SCRIPT} | sed 's+$$xv_cxl_lib_path+${XSIM_LIB_PATH}+g' \
                                                          | sed 's+$$xv_cpt_lib_path+${PROTECTED_MODELS_LIB_PATH}+g' \
                                                          | sed 's+$$xv_ext_lib_path+${EXT_MODELS_LIB_PATH}+g' \
@@ -52,7 +53,14 @@ LINUX_INITRAMFS = ${BUILD_DIR}/buildroot-output/images/rootfs.cpio.uboot
 LINUX_KERNEL7   = ${BUILD_DIR}/buildroot-output/images/uImage
 LINUX_BOOT_BIN  = ${BUILD_DIR}/buildroot-output/images/boot/BOOT.BIN
 
-${BUILD_DIR}/xsim-hw_emu/pmu-rom.elf: ${BUILD_DIR}/vivado
+${BUILD_DIR}/xsim-hw_emu:
+	@mkdir -p $@
+	@mkdir -p $@/build
+	@mkdir -p $@/script
+	@mkdir -p $@/log
+	@mkdir -p $@/dts
+
+${BUILD_DIR}/xsim-hw_emu/pmu-rom.elf: | ${BUILD_DIR}/xsim-hw_emu
 	@echo "----------------------------------------------------------------"
 	@echo "---     HARDWARE EMULATION: DOWNLOAD AND EXTRACT PMU ROM     ---"
 	@echo "----------------------------------------------------------------"
@@ -60,8 +68,17 @@ ${BUILD_DIR}/xsim-hw_emu/pmu-rom.elf: ${BUILD_DIR}/vivado
 	@cd ${BUILD_DIR}/xsim-hw_emu && tar xvzf PMU_ROM.tar.gz
 	@cp ${BUILD_DIR}/xsim-hw_emu/PMU_ROM/pmu-rom.elf $@
 
+${BUILD_DIR}/xsim-hw_emu/script/synth_sources.tcl: ${SYNTH_SRC} ${PROJECT_MK} ${RTL_MODULES_DEF} | ${BUILD_DIR}/xsim-hw_emu
+	@rm -f $@
+	@touch $@
+	@echo "set synth_list {" > $@
+	@for f in ${SYNTH_SRC}; do \
+	   cp $${f} ${BUILD_DIR}/xsim-hw_emu/build/`basename $${f}`; \
+	   echo "  ${BUILD_DIR}/xsim-hw_emu/build/`basename $${f}`" >> $@; \
+	done
+	@echo "}" >> $@
 
-${BUILD_DIR}/xsim-hw_emu/import-synth.done: ${BUILD_DIR}/vivado/script/synth_sources.tcl
+${BUILD_DIR}/xsim-hw_emu/import-synth.done: ${BUILD_DIR}/xsim-hw_emu/script/synth_sources.tcl
 	@echo "----------------------------------------------------------------"
 	@echo "---    HARDWARE EMULATION SYNTHETIZABLE FILES IMPORTATION    ---"
 	@echo "----------------------------------------------------------------"
@@ -69,7 +86,7 @@ ${BUILD_DIR}/xsim-hw_emu/import-synth.done: ${BUILD_DIR}/vivado/script/synth_sou
 	@vivado -mode batch -source script/vivado/import_synth.tcl -notrace -nojournal -nolog -tclargs "${BUILD_DIR}/xsim-hw_emu" "Verilog" "tlm" "${PART}" "${BOARD_NAME}" 1
 	@echo "DONE" > ${BUILD_DIR}/xsim-hw_emu/import-synth.done
 
-${BUILD_DIR}/xsim-hw_emu/qemu-devicetrees: | ${BUILD_DIR}/vivado
+${BUILD_DIR}/xsim-hw_emu/qemu-devicetrees: | ${BUILD_DIR}/xsim-hw_emu
 	@echo "----------------------------------------------------------------"
 	@echo "---          QEMU XILINX DEVICE TREE COMPILATION             ---"
 	@echo "----------------------------------------------------------------"
@@ -139,7 +156,7 @@ ${BUILD_DIR}/xsim-hw_emu/elab.done: ${BUILD_DIR}/xsim-hw_emu/compile.done
 # -------------------------------------------------------------------------------------------------
 
 .PHONY: hw-emu-baremetal-zynqmp
-hw-emu-baremetal-zynqmp: ${BUILD_DIR}/xsim-hw_emu/elab.done ${BUILD_DIR}/xsim-hw_emu/system.dtb baremetal-build | ${WORK_DIR}/qemu
+hw-emu-baremetal-zynqmp: ${BUILD_DIR}/xsim-hw_emu/elab.done ${BUILD_DIR}/xsim-hw_emu/system.dtb baremetal-build ${INSTALL_DIR}/bin/qemu-system-aarch64
 	@echo "----------------------------------------------------------------"
 	@echo "---         HARDWARE EMULATION: Launching PMU QEMU           ---"
 	@echo "----------------------------------------------------------------"
@@ -163,7 +180,7 @@ hw-emu-baremetal-zynqmp: ${BUILD_DIR}/xsim-hw_emu/elab.done ${BUILD_DIR}/xsim-hw
 	fi
 
 .PHONY: hw-emu-baremetal-zynq
-hw-emu-baremetal-zynq: ${BUILD_DIR}/xsim-hw_emu/elab.done ${BUILD_DIR}/xsim-hw_emu/system.dtb baremetal-build | ${WORK_DIR}/qemu
+hw-emu-baremetal-zynq: ${BUILD_DIR}/xsim-hw_emu/elab.done ${BUILD_DIR}/xsim-hw_emu/system.dtb baremetal-build ${INSTALL_DIR}/bin/qemu-system-aarch64
 	@echo "----------------------------------------------------------------"
 	@echo "---         HARDWARE EMULATION: Launching PS7 QEMU           ---"
 	@echo "----------------------------------------------------------------"
@@ -188,7 +205,7 @@ hw-emu-baremetal: hw-emu-baremetal-${SOC_FAMILY}
 # ---------------------------------------------------------------------------------------------------------------------------------------------
 
 .PHONY: hw-emu-freertos-zynqmp
-hw-emu-freertos-zynqmp: ${BUILD_DIR}/xsim-hw_emu/elab.done ${BUILD_DIR}/xsim-hw_emu/system.dtb freertos-build | ${WORK_DIR}/qemu
+hw-emu-freertos-zynqmp: ${BUILD_DIR}/xsim-hw_emu/elab.done ${BUILD_DIR}/xsim-hw_emu/system.dtb freertos-build ${INSTALL_DIR}/bin/qemu-system-aarch64
 	@echo "----------------------------------------------------------------"
 	@echo "---         HARDWARE EMULATION: Launching PMU QEMU           ---"
 	@echo "----------------------------------------------------------------"
@@ -212,7 +229,7 @@ hw-emu-freertos-zynqmp: ${BUILD_DIR}/xsim-hw_emu/elab.done ${BUILD_DIR}/xsim-hw_
 	fi
 
 .PHONY: hw-emu-freertos-zynq
-hw-emu-freertos-zynq: ${BUILD_DIR}/xsim-hw_emu/elab.done ${BUILD_DIR}/xsim-hw_emu/system.dtb freertos-build | ${WORK_DIR}/qemu
+hw-emu-freertos-zynq: ${BUILD_DIR}/xsim-hw_emu/elab.done ${BUILD_DIR}/xsim-hw_emu/system.dtb freertos-build ${INSTALL_DIR}/bin/qemu-system-aarch64
 	@echo "----------------------------------------------------------------"
 	@echo "---         HARDWARE EMULATION: Launching PS7 QEMU           ---"
 	@echo "----------------------------------------------------------------"
@@ -237,7 +254,7 @@ hw-emu-freertos: hw-emu-freertos-${SOC_FAMILY}
 # ---------------------------------------------------------------------------------------------------------------------------------------------
 
 .PHONY: hw-emu-buildroot-zynqmp
-hw-emu-buildroot-zynqmp: ${BUILD_DIR}/xsim-hw_emu/elab.done ${BUILD_DIR}/xsim-hw_emu/pmu-rom.elf buildroot-cpio-build ${BUILD_DIR}/xsim-hw_emu/system.dtb | ${WORK_DIR}/qemu
+hw-emu-buildroot-zynqmp: ${BUILD_DIR}/xsim-hw_emu/elab.done ${BUILD_DIR}/xsim-hw_emu/pmu-rom.elf buildroot-cpio-build ${BUILD_DIR}/xsim-hw_emu/system.dtb ${INSTALL_DIR}/bin/qemu-system-aarch64
 	@echo "----------------------------------------------------------------"
 	@echo "---         HARDWARE EMULATION: Launching PMU QEMU           ---"
 	@echo "----------------------------------------------------------------"
@@ -261,7 +278,7 @@ hw-emu-buildroot-zynqmp: ${BUILD_DIR}/xsim-hw_emu/elab.done ${BUILD_DIR}/xsim-hw
 	fi
 
 .PHONY: hw-emu-buildroot-zynq
-hw-emu-buildroot-zynq: ${BUILD_DIR}/xsim-hw_emu/elab.done ${BUILD_DIR}/xsim-hw_emu/system.dtb buildroot-cpio-build | ${WORK_DIR}/qemu
+hw-emu-buildroot-zynq: ${BUILD_DIR}/xsim-hw_emu/elab.done ${BUILD_DIR}/xsim-hw_emu/system.dtb buildroot-cpio-build ${INSTALL_DIR}/bin/qemu-system-aarch64
 	@echo "----------------------------------------------------------------"
 	@echo "---         HARDWARE EMULATION: Launching PS7 QEMU           ---"
 	@echo "----------------------------------------------------------------"
