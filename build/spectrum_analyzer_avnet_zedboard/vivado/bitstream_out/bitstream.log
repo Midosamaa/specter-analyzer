@@ -1,0 +1,123 @@
+#-----------------------------------------------------------
+# Vivado v2022.2 (64-bit)
+# SW Build 3671981 on Fri Oct 14 04:59:54 MDT 2022
+# IP Build 3669848 on Fri Oct 14 08:30:02 MDT 2022
+# Start of session at: Sun Feb 23 22:10:11 2025
+# Process ID: 20135
+# Current directory: /home/midosama/Desktop/projet_ana_spec/workflow-2024-2025-ei4-main
+# Command line: vivado -mode batch -source script/vivado/bitstream.tcl -nojournal -notrace /home/midosama/Desktop/projet_ana_spec/workflow-2024-2025-ei4-main/build/spectrum_analyzer_avnet_zedboard/vivado/dcp/route.dcp -log /home/midosama/Desktop/projet_ana_spec/workflow-2024-2025-ei4-main/build/spectrum_analyzer_avnet_zedboard/vivado/bitstream_out/bitstream.log -tclargs /home/midosama/Desktop/projet_ana_spec/workflow-2024-2025-ei4-main/build/spectrum_analyzer_avnet_zedboard/vivado NO
+# Log file: /home/midosama/Desktop/projet_ana_spec/workflow-2024-2025-ei4-main/build/spectrum_analyzer_avnet_zedboard/vivado/bitstream_out/bitstream.log
+# Journal file: 
+# Running On: BANG, OS: Linux, CPU Frequency: 2300.882 MHz, CPU Physical cores: 4, Host memory: 16533 MB
+#-----------------------------------------------------------
+open_checkpoint /home/midosama/Desktop/projet_ana_spec/workflow-2024-2025-ei4-main/build/spectrum_analyzer_avnet_zedboard/vivado/dcp/route.dcp
+Command: open_checkpoint /home/midosama/Desktop/projet_ana_spec/workflow-2024-2025-ei4-main/build/spectrum_analyzer_avnet_zedboard/vivado/dcp/route.dcp
+
+Starting open_checkpoint Task
+
+Time (s): cpu = 00:00:00.05 ; elapsed = 00:00:00.05 . Memory (MB): peak = 1268.059 ; gain = 0.000 ; free physical = 6122 ; free virtual = 13420
+INFO: [Device 21-403] Loading part xc7z020clg484-1
+Netlist sorting complete. Time (s): cpu = 00:00:00.39 ; elapsed = 00:00:00.39 . Memory (MB): peak = 1616.727 ; gain = 0.000 ; free physical = 5737 ; free virtual = 13028
+INFO: [Netlist 29-17] Analyzing 279 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-479] Netlist was created with Vivado 2022.2
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Timing 38-478] Restoring timing data from binary archive.
+INFO: [Timing 38-479] Binary timing data restore complete.
+INFO: [Project 1-856] Restoring constraints from binary archive.
+INFO: [Project 1-853] Binary constraint restore complete.
+Reading XDEF placement.
+Reading placer database...
+Reading XDEF routing.
+Read XDEF Files: Time (s): cpu = 00:00:02 ; elapsed = 00:00:02 . Memory (MB): peak = 2316.867 ; gain = 3.969 ; free physical = 5125 ; free virtual = 12430
+Restored from archive | CPU: 2.450000 secs | Memory: 16.089668 MB |
+Finished XDEF File Restore: Time (s): cpu = 00:00:02 ; elapsed = 00:00:02 . Memory (MB): peak = 2316.867 ; gain = 3.969 ; free physical = 5125 ; free virtual = 12430
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2316.867 ; gain = 0.000 ; free physical = 5109 ; free virtual = 12420
+INFO: [Project 1-111] Unisim Transformation Summary:
+  A total of 177 instances were transformed.
+  RAM16X1D => RAM32X1D (RAMD32(x2)): 2 instances
+  RAM32M => RAM32M (RAMD32(x6), RAMS32(x2)): 163 instances
+  RAM32X1D => RAM32X1D (RAMD32(x2)): 12 instances
+
+INFO: [Project 1-604] Checkpoint was created with Vivado v2022.2 (64-bit) build 3671981
+OpenCheckpoint Checksum | Checksum: 159a9fc63
+----- Checksum: PlaceDB: 9e62835c ShapeSum: 079c2106 RouteDB: b3ab5801 
+open_checkpoint: Time (s): cpu = 00:00:31 ; elapsed = 00:00:33 . Memory (MB): peak = 2320.867 ; gain = 1052.809 ; free physical = 5104 ; free virtual = 12420
+source script/vivado/bitstream.tcl -notrace
+Command: write_bitstream -force /home/midosama/Desktop/projet_ana_spec/workflow-2024-2025-ei4-main/build/spectrum_analyzer_avnet_zedboard/vivado/bitstream.bit
+Attempting to get a license for feature 'Implementation' and/or device 'xc7z020'
+INFO: [Common 17-349] Got license for feature 'Implementation' and/or device 'xc7z020'
+Running DRC as a precondition to command write_bitstream
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/tools/Xilinx/Vivado/2022.2/data/ip'.
+INFO: [DRC 23-27] Running DRC with 8 threads
+INFO: [DRC REQP-181] writefirst: Synchronous clocking is detected for BRAM (bd_inst/design_1_i/axi_dma_0/U0/I_PRMRY_DATAMOVER/GEN_MM2S_FULL.I_MM2S_FULL_WRAPPER/GEN_INCLUDE_MM2S_SF.I_RD_SF/I_DATA_FIFO/BLK_MEM.I_SYNC_FIFOGEN_FIFO/xpm_fifo_instance.xpm_fifo_sync_inst/xpm_fifo_base_inst/gen_sdpram.xpm_memory_base_inst/gen_wr_a.gen_word_narrow.mem_reg) in SDP mode with WRITE_FIRST write-mode. This is the preferred mode for best power characteristics, however it may exhibit address collisions if the same address appears on both read and write ports resulting in unknown or corrupted read data. It is suggested to confirm via simulation that an address collision never occurs and if so it is suggested to try and avoid this situation. If address collisions cannot be avoided, the write-mode may be set to READ_FIRST which guarantees that the read data is the prior contents of the memory at the cost of additional power in the design. See the FPGA Memory Resources User Guide for additional information.
+INFO: [DRC REQP-181] writefirst: Synchronous clocking is detected for BRAM (bd_inst/design_1_i/axi_dma_0/U0/I_PRMRY_DATAMOVER/GEN_S2MM_FULL.I_S2MM_FULL_WRAPPER/GEN_ENABLE_INDET_BTT_SF.I_INDET_BTT/I_DATA_FIFO/BLK_MEM.I_SYNC_FIFOGEN_FIFO/xpm_fifo_instance.xpm_fifo_sync_inst/xpm_fifo_base_inst/gen_sdpram.xpm_memory_base_inst/gen_wr_a.gen_word_narrow.mem_reg) in SDP mode with WRITE_FIRST write-mode. This is the preferred mode for best power characteristics, however it may exhibit address collisions if the same address appears on both read and write ports resulting in unknown or corrupted read data. It is suggested to confirm via simulation that an address collision never occurs and if so it is suggested to try and avoid this situation. If address collisions cannot be avoided, the write-mode may be set to READ_FIRST which guarantees that the read data is the prior contents of the memory at the cost of additional power in the design. See the FPGA Memory Resources User Guide for additional information.
+INFO: [Vivado 12-3199] DRC finished with 0 Errors, 2 Advisories
+INFO: [Vivado 12-3200] Please refer to the DRC report (report_drc) for more information.
+INFO: [Designutils 20-2272] Running write_bitstream with 8 threads.
+Loading data files...
+Loading site data...
+Loading route data...
+Processing options...
+Creating bitmap...
+Creating bitstream...
+Writing bitstream /home/midosama/Desktop/projet_ana_spec/workflow-2024-2025-ei4-main/build/spectrum_analyzer_avnet_zedboard/vivado/bitstream.bit...
+INFO: [Vivado 12-1842] Bitgen Completed Successfully.
+INFO: [Project 1-1876] WebTalk data collection is mandatory when using a ULT device. To see the specific WebTalk data collected for your design, open the usage_statistics_webtalk.html or usage_statistics_webtalk.xml file in the implementation directory.
+INFO: [Common 17-83] Releasing license: Implementation
+13 Infos, 0 Warnings, 0 Critical Warnings and 0 Errors encountered.
+write_bitstream completed successfully
+write_bitstream: Time (s): cpu = 00:00:38 ; elapsed = 00:00:22 . Memory (MB): peak = 2833.848 ; gain = 512.980 ; free physical = 5089 ; free virtual = 12412
+INFO: [Project 1-1918] Creating Hardware Platform: /home/midosama/Desktop/projet_ana_spec/workflow-2024-2025-ei4-main/build/spectrum_analyzer_avnet_zedboard/vivado/system.xsa ...
+Command: write_bitstream -force /home/midosama/Desktop/projet_ana_spec/workflow-2024-2025-ei4-main/.Xil/Vivado-20135-BANG/xsa/system.bit
+Attempting to get a license for feature 'Implementation' and/or device 'xc7z020'
+INFO: [Common 17-349] Got license for feature 'Implementation' and/or device 'xc7z020'
+Running DRC as a precondition to command write_bitstream
+INFO: [IP_Flow 19-1839] IP Catalog is up to date.
+INFO: [DRC 23-27] Running DRC with 8 threads
+INFO: [DRC REQP-181] writefirst: Synchronous clocking is detected for BRAM (bd_inst/design_1_i/axi_dma_0/U0/I_PRMRY_DATAMOVER/GEN_MM2S_FULL.I_MM2S_FULL_WRAPPER/GEN_INCLUDE_MM2S_SF.I_RD_SF/I_DATA_FIFO/BLK_MEM.I_SYNC_FIFOGEN_FIFO/xpm_fifo_instance.xpm_fifo_sync_inst/xpm_fifo_base_inst/gen_sdpram.xpm_memory_base_inst/gen_wr_a.gen_word_narrow.mem_reg) in SDP mode with WRITE_FIRST write-mode. This is the preferred mode for best power characteristics, however it may exhibit address collisions if the same address appears on both read and write ports resulting in unknown or corrupted read data. It is suggested to confirm via simulation that an address collision never occurs and if so it is suggested to try and avoid this situation. If address collisions cannot be avoided, the write-mode may be set to READ_FIRST which guarantees that the read data is the prior contents of the memory at the cost of additional power in the design. See the FPGA Memory Resources User Guide for additional information.
+INFO: [DRC REQP-181] writefirst: Synchronous clocking is detected for BRAM (bd_inst/design_1_i/axi_dma_0/U0/I_PRMRY_DATAMOVER/GEN_S2MM_FULL.I_S2MM_FULL_WRAPPER/GEN_ENABLE_INDET_BTT_SF.I_INDET_BTT/I_DATA_FIFO/BLK_MEM.I_SYNC_FIFOGEN_FIFO/xpm_fifo_instance.xpm_fifo_sync_inst/xpm_fifo_base_inst/gen_sdpram.xpm_memory_base_inst/gen_wr_a.gen_word_narrow.mem_reg) in SDP mode with WRITE_FIRST write-mode. This is the preferred mode for best power characteristics, however it may exhibit address collisions if the same address appears on both read and write ports resulting in unknown or corrupted read data. It is suggested to confirm via simulation that an address collision never occurs and if so it is suggested to try and avoid this situation. If address collisions cannot be avoided, the write-mode may be set to READ_FIRST which guarantees that the read data is the prior contents of the memory at the cost of additional power in the design. See the FPGA Memory Resources User Guide for additional information.
+INFO: [Vivado 12-3199] DRC finished with 0 Errors, 2 Advisories
+INFO: [Vivado 12-3200] Please refer to the DRC report (report_drc) for more information.
+INFO: [Designutils 20-2272] Running write_bitstream with 8 threads.
+Loading data files...
+Loading site data...
+Loading route data...
+Processing options...
+Creating bitmap...
+Creating bitstream...
+Writing bitstream /home/midosama/Desktop/projet_ana_spec/workflow-2024-2025-ei4-main/.Xil/Vivado-20135-BANG/xsa/system.bit...
+INFO: [Vivado 12-1842] Bitgen Completed Successfully.
+INFO: [Project 1-1876] WebTalk data collection is mandatory when using a ULT device. To see the specific WebTalk data collected for your design, open the usage_statistics_webtalk.html or usage_statistics_webtalk.xml file in the implementation directory.
+INFO: [Common 17-83] Releasing license: Implementation
+25 Infos, 0 Warnings, 0 Critical Warnings and 0 Errors encountered.
+write_bitstream completed successfully
+write_bitstream: Time (s): cpu = 00:00:36 ; elapsed = 00:00:20 . Memory (MB): peak = 2897.879 ; gain = 64.031 ; free physical = 4979 ; free virtual = 12301
+INFO: [Project 1-1943] The Hardware Platform can be used for Hardware
+INFO: [Project 1-1941] Successfully created Hardware Platform: /home/midosama/Desktop/projet_ana_spec/workflow-2024-2025-ei4-main/build/spectrum_analyzer_avnet_zedboard/vivado/system.xsa
+INFO: [Hsi 55-2053] elapsed time for repository (/tools/Xilinx/Vivado/2022.2/data/embeddedsw) loading 1 seconds
+write_hw_platform: Time (s): cpu = 00:00:42 ; elapsed = 00:00:26 . Memory (MB): peak = 2897.879 ; gain = 64.031 ; free physical = 4985 ; free virtual = 12318
+INFO: [Timing 38-91] UpdateTimingParams: Speed grade: -1, Delay Type: min_max.
+INFO: [Timing 38-191] Multithreading enabled for timing update using a maximum of 8 CPUs
+Command: report_power -file /home/midosama/Desktop/projet_ana_spec/workflow-2024-2025-ei4-main/build/spectrum_analyzer_avnet_zedboard/vivado/bitstream_out/power.rpt
+Running Vector-less Activity Propagation...
+
+Finished Running Vector-less Activity Propagation
+WARNING: [Power 33-332] Found switching activity that implies high-fanout reset nets being asserted for excessive periods of time which may result in inaccurate power analysis.
+Resolution: To review and fix problems, please run Power Constraints Advisor in the GUI from Tools > Power Constraints Advisor or run report_power with the -advisory option to generate a text report.
+30 Infos, 1 Warnings, 0 Critical Warnings and 0 Errors encountered.
+report_power completed successfully
+Command: report_drc -file /home/midosama/Desktop/projet_ana_spec/workflow-2024-2025-ei4-main/build/spectrum_analyzer_avnet_zedboard/vivado/bitstream_out/drc.rpt
+INFO: [IP_Flow 19-1839] IP Catalog is up to date.
+INFO: [DRC 23-27] Running DRC with 8 threads
+INFO: [Vivado_Tcl 2-168] The results of DRC are in file /home/midosama/Desktop/projet_ana_spec/workflow-2024-2025-ei4-main/build/spectrum_analyzer_avnet_zedboard/vivado/bitstream_out/drc.rpt.
+report_drc completed successfully
+INFO: [Timing 38-480] Writing timing data to binary archive.
+Writing XDEF routing.
+Writing XDEF routing logical nets.
+Writing XDEF routing special nets.
+Write XDEF Complete: Time (s): cpu = 00:00:06 ; elapsed = 00:00:02 . Memory (MB): peak = 2947.484 ; gain = 0.000 ; free physical = 4903 ; free virtual = 12265
+INFO: [Common 17-1381] The checkpoint '/home/midosama/Desktop/projet_ana_spec/workflow-2024-2025-ei4-main/build/spectrum_analyzer_avnet_zedboard/vivado/dcp/bitstream.dcp' has been generated.
+INFO: [Common 17-206] Exiting Vivado at Sun Feb 23 22:11:50 2025...
