@@ -19,7 +19,7 @@ PRE_BITSTREAM_CONSTRAINTS  =
 # module include
 include rtl/led_blink/sources.mk
 include rtl/simple_axis_adder/sources.mk
-# include rtl/i2s2axis/sources.mk
+include rtl/i2s2axis/sources.mk
 include rtl/AXI_Stream_Generator/sources.mk
 include rtl/VGA_Generator_test/sources.mk
 
