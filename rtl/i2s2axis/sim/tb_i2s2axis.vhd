@@ -55,7 +55,7 @@ architecture tb of tb_i2s2axis is
 
 begin
 	SCLK <= '0' when DONE else not SCLK after Period_I2S / 2; 
-    ARESETn <= '0', '1' after Period_AXIS;
+    ARESETn <= '0', '1' after Period_I2S;
     
     -- ACLK <= '0' when DONE else not ACLK after Period_AXIS / 2;
     
@@ -77,16 +77,19 @@ begin
 
     process
     begin
-        wait for 2*Period_AXIS;
+        wait for 2*Period_I2S;
         
         LRCK <= '0';
-        wait for 30*Period_I2S;
+        wait for 32*Period_I2S;
         LRCK <= '1';
 
-        wait for 30*Period_I2S;
+        wait for 32*Period_I2S;
         LRCK <= '0';
-        wait for 30 *Period_I2S;
+        wait for 32*Period_I2S;
         LRCK <= '1';
+        wait for 32*Period_I2S;
+        LRCK <= '0';
+
 
 
         DONE <= true;
