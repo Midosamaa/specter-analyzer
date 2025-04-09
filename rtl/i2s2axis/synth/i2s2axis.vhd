@@ -84,7 +84,7 @@ begin
             
             when Rec_L =>
                 if(cpt_i2s = 1) then
-                    TDATA(cpt_i2s-1) <= '0';
+                    TDATA(cpt_i2s-1) <= LRCK;
                     cpt_i2s <= TDATA_WIDTH;
                     i2s_state <= Wait_R;
                     tvalid_int <= '1';
@@ -95,7 +95,7 @@ begin
 
             when Rec_R => 
                 if(cpt_i2s = 1) then
-                    TDATA(cpt_i2s-1) <= '1';
+                    TDATA(cpt_i2s-1) <= LRCK;
                     cpt_i2s <= TDATA_WIDTH;
                     i2s_state <= Wait_L;
                     tvalid_int <= '1';
